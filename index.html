@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0a0d11" />
+  <meta name="description" content="Foundry Frontier — a desktop factory automation game." />
+  <title>Foundry Frontier</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <canvas id="game" aria-label="Foundry Frontier game world"></canvas>
+
+  <div id="desktop-warning">
+    <strong>Foundry Frontier is designed for PC.</strong>
+    Use a desktop browser with a mouse and keyboard for the intended experience.
+  </div>
+
+  <header id="topbar" class="glass">
+    <div class="brand">
+      <span class="brand-mark">FF</span>
+      <div>
+        <strong>FOUNDRY FRONTIER</strong>
+        <small id="sector-name">Sector A-17</small>
+      </div>
+    </div>
+
+    <div class="resource-strip">
+      <div class="resource"><span>₡</span><strong id="credits">0</strong><small>credits</small></div>
+      <div class="resource"><span>⚡</span><strong id="power">100%</strong><small>efficiency</small></div>
+      <div class="resource"><span>◈</span><strong id="science">0</strong><small>research</small></div>
+      <div class="resource"><span>▦</span><strong id="building-count">1</strong><small>structures</small></div>
+    </div>
+
+    <div class="top-actions">
+      <button id="pause-button" class="icon-button" title="Pause (P)">Ⅱ</button>
+      <button id="help-button" class="icon-button" title="Codex (F1)">?</button>
+      <button id="menu-button" class="icon-button" title="Menu (Esc)">☰</button>
+    </div>
+  </header>
+
+  <aside id="mission-panel" class="glass">
+    <div class="panel-kicker">OPERATIONS</div>
+    <h2 id="mission-title">Bootstrap the colony</h2>
+    <p id="mission-copy">Establish automated iron production and deliver plates to the Command Core.</p>
+    <div class="mission-progress">
+      <div><span id="mission-label">Iron plates delivered</span><strong id="mission-counter">0 / 20</strong></div>
+      <div class="progress-track"><div id="mission-bar"></div></div>
+    </div>
+    <div id="mission-reward">Reward: ₡ 150</div>
+  </aside>
+
+  <aside id="inspector" class="glass hidden">
+    <div class="inspector-head">
+      <div>
+        <div class="panel-kicker">STRUCTURE</div>
+        <h2 id="inspector-name">Miner</h2>
+      </div>
+      <button id="close-inspector" class="small-button" title="Close">×</button>
+    </div>
+    <div id="inspector-status" class="status-line"></div>
+    <div id="inspector-throughput" class="meter-block">
+      <div><span>Cycle</span><strong id="cycle-label">Idle</strong></div>
+      <div class="progress-track"><div id="cycle-bar"></div></div>
+    </div>
+    <div id="recipe-picker" class="hidden">
+      <div class="panel-kicker">PRODUCTION RECIPE</div>
+      <div id="recipe-buttons"></div>
+    </div>
+    <div class="inventory-block">
+      <div class="panel-kicker">CONTENTS</div>
+      <div id="inventory-grid"></div>
+    </div>
+    <div class="inspector-actions">
+      <button id="rotate-selected" class="action-button">Rotate <kbd>R</kbd></button>
+      <button id="sell-selected" class="action-button danger">Dismantle <kbd>Del</kbd></button>
+    </div>
+  </aside>
+
+  <div id="minimap-shell" class="glass">
+    <canvas id="minimap" width="220" height="150"></canvas>
+    <div class="minimap-label"><span>TACTICAL MAP</span><small>Click to navigate</small></div>
+  </div>
+
+  <div id="status-feed" class="glass">
+    <span id="status-dot"></span>
+    <span id="status-text">Command Core online. Awaiting construction orders.</span>
+  </div>
+
+  <section id="build-dock" class="glass">
+    <div class="dock-heading">
+      <div>
+        <span class="panel-kicker">CONSTRUCTION</span>
+        <strong id="build-mode-text">Transport Belt</strong>
+      </div>
+      <div class="dock-hints">
+        <span><kbd>R</kbd> rotate</span>
+        <span><kbd>Q</kbd>/<kbd>E</kbd> cycle</span>
+        <span><kbd>RMB</kbd> cancel</span>
+      </div>
+    </div>
+    <div id="build-toolbar">
+      <button class="build-tool active" data-tool="belt" data-key="1">
+        <span class="hotkey">1</span><span class="tool-icon belt-icon">➜</span>
+        <span class="tool-copy"><strong>Belt</strong><small>₡ 2</small></span>
+      </button>
+      <button class="build-tool" data-tool="miner" data-key="2">
+        <span class="hotkey">2</span><span class="tool-icon">⛏</span>
+        <span class="tool-copy"><strong>Miner</strong><small>₡ 24</small></span>
+      </button>
+      <button class="build-tool" data-tool="furnace" data-key="3">
+        <span class="hotkey">3</span><span class="tool-icon">♨</span>
+        <span class="tool-copy"><strong>Furnace</strong><small>₡ 40</small></span>
+      </button>
+      <button class="build-tool" data-tool="assembler" data-key="4">
+        <span class="hotkey">4</span><span class="tool-icon">⚙</span>
+        <span class="tool-copy"><strong>Assembler</strong><small>₡ 80</small></span>
+      </button>
+      <button class="build-tool" data-tool="chest" data-key="5">
+        <span class="hotkey">5</span><span class="tool-icon">▣</span>
+        <span class="tool-copy"><strong>Depot</strong><small>₡ 18</small></span>
+      </button>
+      <button class="build-tool" data-tool="splitter" data-key="6">
+        <span class="hotkey">6</span><span class="tool-icon">⑂</span>
+        <span class="tool-copy"><strong>Router</strong><small>₡ 32</small></span>
+      </button>
+    </div>
+  </section>
+
+  <div id="cursor-tooltip"></div>
+  <div id="toast-stack"></div>
+
+  <div id="start-screen" class="overlay show">
+    <div class="hero-panel">
+      <div class="eyebrow">AUTOMATION / LOGISTICS / EXPANSION</div>
+      <h1>FOUNDRY<br><span>FRONTIER</span></h1>
+      <p>
+        Reawaken a derelict industrial colony. Extract raw materials, route production,
+        and build a self-sustaining machine city across a hostile frontier.
+      </p>
+      <div class="hero-actions">
+        <button id="continue-game" class="primary-button">Continue Operation</button>
+        <button id="new-game" class="secondary-button">New Sector</button>
+      </div>
+      <div class="version-line">Desktop prototype · Local autosave · v0.2</div>
+    </div>
+    <div class="hero-art">
+      <div class="orbital-ring ring-one"></div>
+      <div class="orbital-ring ring-two"></div>
+      <div class="planet"></div>
+      <div class="scan-line"></div>
+    </div>
+  </div>
+
+  <div id="pause-screen" class="overlay">
+    <div class="modal-card pause-card">
+      <div class="panel-kicker">SYSTEM HALTED</div>
+      <h1>Operation Paused</h1>
+      <button id="resume-game" class="primary-button">Resume</button>
+      <button id="pause-help" class="secondary-button">Open Codex</button>
+      <button id="pause-save" class="secondary-button">Save Now</button>
+      <button id="pause-restart" class="danger-button">Abandon Sector</button>
+    </div>
+  </div>
+
+  <div id="help-screen" class="overlay">
+    <div class="modal-card codex-card">
+      <div class="codex-head">
+        <div>
+          <div class="panel-kicker">FIELD MANUAL</div>
+          <h1>Command Codex</h1>
+        </div>
+        <button id="close-help" class="icon-button">×</button>
+      </div>
+      <div class="codex-grid">
+        <section>
+          <h3>Navigation</h3>
+          <p><kbd>WASD</kbd> or edge-scroll to move the camera. Hold <kbd>MMB</kbd> or <kbd>Space</kbd> + drag to pan. Use the mouse wheel to zoom.</p>
+        </section>
+        <section>
+          <h3>Construction</h3>
+          <p>Choose a structure with <kbd>1</kbd>–<kbd>6</kbd>. Left-click to place. Click and drag while Belt is selected to lay an entire route.</p>
+        </section>
+        <section>
+          <h3>Orientation</h3>
+          <p>Press <kbd>R</kbd> to rotate the placement direction. Existing structures can be selected and rotated from the inspector.</p>
+        </section>
+        <section>
+          <h3>Production</h3>
+          <p>Miners extract ore or coal. Furnaces consume coal to smelt ore. Assemblers turn plates into components and research packs.</p>
+        </section>
+        <section>
+          <h3>Logistics</h3>
+          <p>Every machine outputs in its arrow direction. Routers alternate output between forward and right. Depots buffer and resend items.</p>
+        </section>
+        <section>
+          <h3>Economy</h3>
+          <p>Send products into the Command Core to earn credits. Research packs advance the operation and unlock milestone rewards.</p>
+        </section>
+      </div>
+      <button id="close-help-bottom" class="primary-button">Return to Operation</button>
+    </div>
+  </div>
+
+  <div id="victory-screen" class="overlay">
+    <div class="modal-card victory-card">
+      <div class="eyebrow">COLONY STATUS: SELF-SUSTAINING</div>
+      <h1>Frontier Secured</h1>
+      <p>You completed the primary production program. The sector is now ready for unrestricted expansion.</p>
+      <div class="victory-stats">
+        <div><strong id="victory-time">00:00</strong><small>operation time</small></div>
+        <div><strong id="victory-buildings">0</strong><small>structures</small></div>
+        <div><strong id="victory-items">0</strong><small>items delivered</small></div>
+      </div>
+      <button id="continue-after-victory" class="primary-button">Continue Building</button>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
