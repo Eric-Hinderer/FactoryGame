@@ -23,14 +23,15 @@ Then open `http://localhost:8080`.
 | `0` | Inspect / free cursor mode |
 | `1`–`9` | Select structure |
 | Left click | Place / select |
-| Left drag with Belt selected | Build belt route |
+| Left drag with Belt selected | Build an obstacle-aware belt route |
 | Right click | Cancel selection |
 | `R` | Rotate |
 | `Q` / `E` | Cycle structures |
-| `T` | Open technology matrix |
+| `T` | Open technology tree |
+| `B` | Open production recipe codex |
 | `Delete` / `Backspace` | Dismantle selected structure |
 | `P` / `Esc` | Pause |
-| `F1` | Open codex |
+| `F1` | Open controls codex |
 
 ## Production chain
 
@@ -46,13 +47,28 @@ Deliver products to the central Command Core to earn credits and complete colony
 
 ## Power system
 
-- Burner furnaces have independent coal and ore buffers, so excess coal can no longer block ore input.
-- Burner furnaces retain partial smelting progress while fuel-starved.
+- Burner furnaces have independent coal and ore buffers and retain partial smelting progress while fuel-starved.
 - Coal Generators consume one coal for 14 seconds of generation.
-- Electric Miners extract substantially faster but draw from the colony grid.
+- Electric Miners extract faster but draw from the colony grid.
 - Electric Furnaces require no coal, smelt faster, and draw from the colony grid.
 - Power technologies unlock generators, electric machinery, grid expansion, and turbine optimization.
 - Press `7`, `8`, and `9` to select the Generator, Electric Miner, and Electric Furnace after researching them.
+
+## Progression safeguards
+
+- Mission-critical fabrication technologies are automatically authorized when their associated mission becomes active.
+- Credits can always be converted into research points from the technology screen, preventing permanent research dead-ends.
+
+## Belt logistics
+
+- Belt routes use obstacle-aware pathfinding and safely merge at existing endpoints.
+- Cargo is distributed across two visible lanes with endpoint margins to prevent item overlap.
+- Belt cargo preserves lane spacing while waiting for a blocked output.
+
+## Recipe visibility
+
+- Select any structure to view its inputs, outputs, cycle time, power or fuel requirements, and operational role.
+- Press `B` to open the complete Production Codex for extraction, smelting, fabrication, power, and logistics recipes.
 
 ## Technical notes
 
