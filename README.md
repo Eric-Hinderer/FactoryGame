@@ -16,7 +16,7 @@ Then open `http://localhost:8080`.
 
 | Control | Action |
 | --- | --- |
-| `WASD` / Arrow keys | Move camera |
+| `WASD` / Arrow keys | Move your engineer (camera follows) |
 | Mouse wheel | Zoom |
 | Middle mouse drag | Pan |
 | `Space` + left drag | Pan |
@@ -44,19 +44,31 @@ Then open `http://localhost:8080`.
 
 Deliver products to the central Command Core to earn credits and complete colony milestones.
 
+## Engineer & exploration
+
+- You control an engineer avatar that walks the sector with `WASD` / arrow keys; the camera smoothly follows.
+- Hold middle mouse or `Space` + drag to look around, and click the tactical map to redeploy the engineer instantly.
+- The avatar animates while moving and faces its direction of travel.
+
+## Procedural sectors
+
+- Every **New Sector** generates a fresh, seeded resource layout — starter iron, copper, and coal are always guaranteed within reach of the Command Core, with additional deposits scattered across the frontier.
+- The map seed is stored in the save, so continuing an operation restores exactly the same terrain.
+- The Phaser terrain layer and minimap rebuild automatically when a new sector is surveyed.
+
 ## Phaser sprite renderer
 
-- Phaser 3.90.0 now owns the world scene, camera, pointer input, particles, and sprite rendering.
+- Phaser 3.90.0 owns the world scene, camera, pointer input, particles, and sprite rendering.
 - The existing factory simulation, technology tree, recipes, missions, and DOM HUD remain integrated with the Phaser scene.
 - `assets/foundry-sprites.svg` contains an original 48-frame vector sprite sheet for terrain, belts, buildings, cargo, effects, and direction indicators.
 - Persistent cyan output overlays show the direction of belts and machines; Routing Junctions show both branches.
 - Press `X` and drag to dismantle multiple structures in one operation. The Command Core cannot be removed.
-- Phaser 3.90.0 is loaded from the version-pinned jsDelivr npm CDN, following Phaser's documented browser setup.
+- Phaser 3.90.0 is **bundled locally** in `vendor/` (no external CDN), so the renderer loads instantly and works offline or behind a strict content-security policy.
 - The legacy Canvas renderer remains as a startup fallback if Phaser cannot initialize.
 
 ## Technical notes
 
-- Phaser 3.90.0 browser runtime loaded from a version-pinned CDN
+- Phaser 3.90.0 browser runtime bundled locally in `vendor/` (no external CDN dependency)
 - Sprite-based world scene with a legacy Canvas startup fallback
 - Local autosave with `localStorage`
 - Static deployment compatible with Vercel
@@ -78,6 +90,12 @@ Deliver products to the central Command Core to earn credits and complete colony
 
 ## Belt logistics
 
-- Belt routes use obstacle-aware pathfinding and safely merge at existing endpoints.
+- Belt routes use obstacle-aware pathfinding and now thread cleanly **through** existing belts, merging instead of failing when a route crosses your network.
 - Cargo is distributed across two visible lanes with endpoint margins to prevent item overlap.
 - Select any structure for detailed recipes, or press `B` to open the complete Production Codex.
+
+## Progression
+
+- Eight colony missions carry the operation from bootstrapping iron all the way to a self-directing deep-frontier research pipeline.
+- The technology matrix includes automation, logistics, industry, and power branches, plus **Mining Productivity** (faster extraction) and **Express Logistics** (7-item, high-speed belts).
+- Mission-critical fabrication technology is auto-authorized so the research path can never dead-end, and credits can always be converted into research points.
