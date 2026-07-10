@@ -1,0 +1,15 @@
+#phaser-root {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: #080d12;
+}
+#phaser-root canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  image-rendering: auto;
+}
+body.phaser-active #game { display: none; }
+body.phaser-active #phaser-root { cursor: crosshair; }
