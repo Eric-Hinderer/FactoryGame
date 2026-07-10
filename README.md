@@ -47,14 +47,14 @@ Deliver products to the central Command Core to earn credits and complete colony
 
 - Phaser 3.90.0 now owns the world scene, camera, pointer input, particles, and sprite rendering.
 - The existing factory simulation, save migration, technology tree, recipes, missions, and DOM HUD remain compatible.
-- `assets/foundry-sprites.js` embeds an original 48-frame PNG sprite sheet for terrain, belts, buildings, cargo, effects, and direction indicators.
+- `assets/foundry-sprites.svg` contains an original 48-frame vector sprite sheet for terrain, belts, buildings, cargo, effects, and direction indicators.
 - Phaser 3.90.0 is loaded from the version-pinned jsDelivr npm CDN, following Phaser's documented browser setup.
 - The legacy Canvas renderer remains as a startup fallback if Phaser cannot initialize.
 
 ## Technical notes
 
-- No framework or external runtime dependencies
-- Full-screen Canvas renderer
+- Phaser 3.90.0 browser runtime loaded from a version-pinned CDN
+- Sprite-based world scene with a legacy Canvas startup fallback
 - Local autosave with `localStorage`
 - Static deployment compatible with Vercel
 - Desktop-only layout and controls
