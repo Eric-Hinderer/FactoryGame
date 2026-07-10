@@ -1,6 +1,6 @@
 # Foundry Frontier
 
-Foundry Frontier is an original, desktop-first factory automation game built with HTML5 Canvas and vanilla JavaScript.
+Foundry Frontier is an original, desktop-first factory automation game rendered with Phaser 3 and driven by a vanilla JavaScript simulation.
 
 ## Play
 
@@ -31,6 +31,7 @@ Then open `http://localhost:8080`.
 | `F1` | Open controls codex |
 | `T` | Open technology tree |
 | `B` | Open production recipe codex |
+| `X` | Toggle area dismantle mode; drag to remove multiple structures |
 
 ## Production chain
 
@@ -46,8 +47,10 @@ Deliver products to the central Command Core to earn credits and complete colony
 ## Phaser sprite renderer
 
 - Phaser 3.90.0 now owns the world scene, camera, pointer input, particles, and sprite rendering.
-- The existing factory simulation, save migration, technology tree, recipes, missions, and DOM HUD remain compatible.
+- The existing factory simulation, technology tree, recipes, missions, and DOM HUD remain integrated with the Phaser scene.
 - `assets/foundry-sprites.svg` contains an original 48-frame vector sprite sheet for terrain, belts, buildings, cargo, effects, and direction indicators.
+- Persistent cyan output overlays show the direction of belts and machines; Routing Junctions show both branches.
+- Press `X` and drag to dismantle multiple structures in one operation. The Command Core cannot be removed.
 - Phaser 3.90.0 is loaded from the version-pinned jsDelivr npm CDN, following Phaser's documented browser setup.
 - The legacy Canvas renderer remains as a startup fallback if Phaser cannot initialize.
 
@@ -67,7 +70,6 @@ Deliver products to the central Command Core to earn credits and complete colony
 - Electric Furnaces require no coal, smelt faster, and draw from the colony grid.
 - Power technologies unlock generators, electric machinery, grid expansion, and turbine optimization.
 - Press `7`, `8`, and `9` to select the Generator, Electric Miner, and Electric Furnace after researching them.
-
 
 ## Progression safeguards
 
