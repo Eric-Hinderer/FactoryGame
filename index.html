@@ -34,6 +34,7 @@
 
     <div class="top-actions">
       <button id="pause-button" class="icon-button" title="Pause (P)">Ⅱ</button>
+      <button id="tech-button" class="icon-button" title="Technology Tree (T)">⌬</button>
       <button id="help-button" class="icon-button" title="Codex (F1)">?</button>
       <button id="menu-button" class="icon-button" title="Menu (Esc)">☰</button>
     </div>
@@ -100,7 +101,11 @@
       </div>
     </div>
     <div id="build-toolbar">
-      <button class="build-tool active" data-tool="belt" data-key="1">
+      <button class="build-tool active cursor-tool" data-tool="cursor" data-key="0">
+        <span class="hotkey">0</span><span class="tool-icon">⌖</span>
+        <span class="tool-copy"><strong>Inspect</strong><small>free cursor</small></span>
+      </button>
+      <button class="build-tool" data-tool="belt" data-key="1">
         <span class="hotkey">1</span><span class="tool-icon belt-icon">➜</span>
         <span class="tool-copy"><strong>Belt</strong><small>₡ 2</small></span>
       </button>
@@ -163,6 +168,25 @@
     </div>
   </div>
 
+  <div id="tech-screen" class="overlay">
+    <div class="modal-card tech-card">
+      <div class="codex-head">
+        <div>
+          <div class="panel-kicker">COLONY DEVELOPMENT</div>
+          <h1>Technology Matrix</h1>
+          <p class="tech-intro">Spend research points earned from operations and research-pack deliveries. Technologies remain unlocked in this save.</p>
+        </div>
+        <div class="tech-balance"><strong id="tech-points">0</strong><small>research points</small></div>
+        <button id="close-tech" class="icon-button">×</button>
+      </div>
+      <div id="tech-grid" class="tech-grid"></div>
+      <div class="tech-footer">
+        <span>Press <kbd>T</kbd> to open or close</span>
+        <button id="close-tech-bottom" class="primary-button">Return to Operation</button>
+      </div>
+    </div>
+  </div>
+
   <div id="help-screen" class="overlay">
     <div class="modal-card codex-card">
       <div class="codex-head">
@@ -179,7 +203,7 @@
         </section>
         <section>
           <h3>Construction</h3>
-          <p>Choose a structure with <kbd>1</kbd>–<kbd>6</kbd>. Left-click to place. Click and drag while Belt is selected to lay an entire route.</p>
+          <p>Press <kbd>0</kbd> for Inspect mode or choose a structure with <kbd>1</kbd>–<kbd>6</kbd>. Left-click to place. Click and drag while Belt is selected to lay a routed line with corners.</p>
         </section>
         <section>
           <h3>Orientation</h3>
@@ -191,7 +215,7 @@
         </section>
         <section>
           <h3>Logistics</h3>
-          <p>Every machine outputs in its arrow direction. Routers alternate output between forward and right. Depots buffer and resend items.</p>
+          <p>Belts carry multiple spaced items and follow visible corners. Every machine outputs in its arrow direction. Routers alternate output between forward and right.</p>
         </section>
         <section>
           <h3>Economy</h3>
@@ -223,5 +247,9 @@
   <script src="/src/game-5.js"></script>
   <script src="/src/game-6.js"></script>
   <script src="/src/game-7.js"></script>
+  <script src="/src/game-8a.js"></script>
+  <script src="/src/game-8b.js"></script>
+  <script src="/src/game-8c.js"></script>
+  <script src="/src/game-8d.js"></script>
 </body>
 </html>
